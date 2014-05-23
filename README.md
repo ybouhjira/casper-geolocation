@@ -5,13 +5,12 @@ A Casper.js module for testing apps that use the geolocation API
 ```javascript
 var require = patchRequire(require)
   , casper = require('casper').create()
-  , geo = require('casperjs-geolocation');
+  , geo = require('casperjs-geolocation')(casper);
 
 casper.start('http://site.com');
 
-var geo, pos = {latitude : 12, longitude : 12};
-casper.on('page.initialized', function() {
-  geo = new Geolocation(casper, pos);
+casper.then(function() {
+  geo.setPos({latitude : 20, longitude:20});
 });
 
 casper.run();

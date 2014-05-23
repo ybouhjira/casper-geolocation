@@ -46,5 +46,11 @@ Geolocation.prototype.setPos = function(pos) {
   this._casper.evaluate(Remote.update_position, pos);
 };
 
-module.exports = Geolocation;
+module.exports = function(casper, pos) {
+  var geo;
+  casper.on('page.initialized', function() {
+    geo = new Geolocation(casper, pos);
+  });
+  return geo;
+}
 
