@@ -20,6 +20,7 @@ var Remote = {
       // watchposition
       watchPosition : function(callback) {
         this.__casperwatchCallback = callback;
+        callback(this.__casperFakeLocation);
       }
     };
   },
