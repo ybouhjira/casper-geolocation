@@ -32,7 +32,7 @@ var Remote = {
 
 // module
 var Geolocation = function(casper, pos) {
-  this._pos = pos;
+  this._pos = pos || {longitude : 0, latitude : 0};
   this._casper = casper;
   this._casper.evaluate(Remote.add_geolocation_api, pos);
 };
