@@ -19,7 +19,7 @@ var Remote = {
 
       // watchposition
       watchPosition : function(callback) {
-        this.__casperwatchCallback = callback;
+        this.__casperWatchCallback = callback;
         console.log('watchPosition called');
         callback(this.__casperFakeLocation);
       }
@@ -36,7 +36,6 @@ var Remote = {
 var Geolocation = function(casper, pos) {
   this._pos = pos || {longitude : 0, latitude : 0};
   this._casper = casper;
-  this._casper.evaluate(Remote.add_geolocation_api, pos);
 };
 
 Geolocation.prototype.getPos = function () {
@@ -45,13 +44,19 @@ Geolocation.prototype.getPos = function () {
 
 Geolocation.prototype.setPos = function(pos) {
   this._pos = pos;
-  this._casper.evaluate(Remote.update_position, pos);
+  this._casper.evaluate(Remote.update_position, {
+    timestamp: Date.now(),
+    coords: {
+      longitude: pos.longitude,
+      latitude: pos.latitude
+    }
+  });
 };
 
 module.exports = function(casper, pos) {
-  var geo;
+  var geo = new Geolocation(casper, pos);
   casper.on('page.initialized', function() {
-    geo = new Geolocation(casper, pos);
+    geo._casper.evaluate(Remote.add_geolocation_api, pos);
   });
   return geo;
 }
