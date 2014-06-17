@@ -1,0 +1,23 @@
+{
+  "name": "casperjs-geolocation",
+  "version": "0.0.0",
+  "description": "A Casper.js module that mocks the geolocation API ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ybouhjira/casperjs-geolocation.git"
+  },
+  "keywords": [
+    "geolocation",
+    "casperjs",
+    "gps"
+  ],
+  "author": "Yousssef Bouhjira",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/ybouhjira/casperjs-geolocation/issues"
+  }
+}
