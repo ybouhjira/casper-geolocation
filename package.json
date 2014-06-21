@@ -13,6 +13,8 @@
   "keywords": [
     "geolocation",
     "casperjs",
+    "phantomjs",
+    "testing",
     "gps"
   ],
   "author": "Yousssef Bouhjira",
