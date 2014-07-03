@@ -1,14 +1,17 @@
-//var require = patchRquire('')
+module.exports = CasperGeolocation;
 
-module.exports = function (casper) {
+function CasperGeolocation(casper) {
   this._casper = casper; 
+  
+  CasperGeolocation._attach_api();
+}
 
-  // Add geolocation API
-  casper.on('page.initialized', function on_initialize() {
+CasperGeolocation._attach_api = function() {
+  casper.on('page.initialized', function on_page_initialized() {  
     casper.evaluate(add_api);
+    function add_api() {
+      window.navigator.geolocation = {};
+      window.navigator.geolocation.getCurrentPosition = function() {};
+    }
   });
-}
-
-function add_api() {
-  window.navigator.geolocation = 'geolocation';
-}
+};
