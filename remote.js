@@ -1,19 +1,22 @@
 var Remote = {};
 
-Remote.add_api = function(pos) {
-  
+/**
+ * Adds the navigator.geolocation API
+ */
+Remote.add_api = function(location) {  
   var api = window.navigator.geolocation = {};
 
-  api = {};
+  /**
+   * stores the fake location
+   */
+  api.__casper_geo_loc = location;
 
-  // stores the fake location
-  api.__casper_geo_loc = 
-
-  // geolocation.getCurrentPosition()
-  api.getCurrentPosition = function(callback, err) {
-    callback({coords : __casper_geo_loc});
+  /**
+   * geolocation.getCurrentPosition()
+   */
+  api.getCurrentPosition = function(callback) {
+    callback(__casper_geo_loc);
   };
- 
 };
 
 module.exports = Remote;

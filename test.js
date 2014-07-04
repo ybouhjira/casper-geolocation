@@ -1,5 +1,5 @@
-var require = patchRequire(require)
-  , CasperGeolocation = new require('./index.js');
+var require = patchRequire(require);
+var CasperGeolocation = new require('./index.js');
 
 // Create new CasperGeolocation instance that should 
 // add the API on page.initialized event
@@ -30,14 +30,15 @@ casper.test.begin('Attaches the geolocation Object', 2, function(test) {
 
 
 // Tests that getCurrentPosition() works
-casper.test.begin('Test geolocation.getCurentPosition()', 2, function(test) {
+casper.test.begin('Test geolocation.getCurentPosition()', 3, function(test) {
 
   /** calls getCurrentPosition with a callback
     * that sets window.__foo__ to value */
   function call_get_current_position(value) {
     casper.evaluate(function(value) {
-      navigator.geolocation.getCurrentPosition(function() {
+      navigator.geolocation.getCurrentPosition(function(location) {
         window.__foo__ = value;
+        window.__location__ = location;
       })  
     }, value);
   }
@@ -48,29 +49,28 @@ casper.test.begin('Test geolocation.getCurentPosition()', 2, function(test) {
   // START CASPER
   casper.start();
 
-  // Call getCurrentPosition and declare 
-  // window.__foo__ = 1 in the callback
+
+  // Test that the callback gets called
   casper.then(function() {
     call_get_current_position(1);
-  });
-
-  // test that __foo__ === 1
-  casper.then(function() {
     test.assertEvalEquals(get_foo, 1, "callback called");
   });
 
-  
-  // // Change the location 
-  casper.then(function() {
-    geo.setLocation({latitude : 12, longitude: 13});
-    call_get_current_position(2);
-  })
 
-  // Test that the 
+  // Test that the callback gets the location set by setLocation 
   casper.then(function() {
+    var test_loc = {latitude : 12, longitude: 13};
+
+    geo.setLocation(test_loc);
+    call_get_current_position(2);
+
     test.assertEvalEquals(get_foo, 2, "Callback called after changing the location");
+
+    function get_location() { return window.__location__ }
+    test.assertEvalEquals(get_location, test_loc, "callback gets the location set by setLocation()");
+    
     test.done();
-  })
+  });
   
   casper.run();
 });

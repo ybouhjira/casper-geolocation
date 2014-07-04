@@ -1,23 +1,30 @@
-module.exports = CasperGeolocation;
+var require = patchRequire(require);
+var Remote = require('./remote.js');
 
-function CasperGeolocation(casper, position) {
+/**
+ * The module's class
+ */
+function CasperGeolocation(casper, location) {
   this._casper = casper; 
-  this._position = position || {latitude : 0, longitude : 0};
+  this._location = location || {latitude : 0, longitude : 0};
 
-  CasperGeolocation._attach_api();
+  this._attach_api();
 }
 
-CasperGeolocation._attach_api = function() {
+/**
+ * Add the API on page.initialized
+ */
+CasperGeolocation.prototype._attach_api = function() {
   casper.on('page.initialized', function() {  
-    casper.evaluate(function() {
-      window.navigator.geolocation = {};
-      window.navigator.geolocation.getCurrentPosition = function(callback) {
-        callback();
-      };
-    });
+    casper.evaluate(Remote.add_api, this._location);
   });
 };
 
-CasperGeolocation.prototype.setLocation = function(position) {
-  this._position = position;
+/**
+ * setter for _location
+ */
+CasperGeolocation.prototype.setLocation = function(location) {
+  this._location = location;
 };
+
+module.exports = CasperGeolocation;
