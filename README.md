@@ -1,6 +1,6 @@
 # casper-geolocation
 A Casper.js module for testing apps that use the geolocation API.
-It allows control of the client's geolocation via a simple `setPos()`
+It allows control of the client's geolocation via a simple `setLocation()`
 function.
 
 ## how to use 
