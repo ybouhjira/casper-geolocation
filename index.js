@@ -1,8 +1,9 @@
 module.exports = CasperGeolocation;
 
-function CasperGeolocation(casper) {
+function CasperGeolocation(casper, position) {
   this._casper = casper; 
-  
+  this._position = position || {latitude : 0, longitude : 0};
+
   CasperGeolocation._attach_api();
 }
 
@@ -15,4 +16,8 @@ CasperGeolocation._attach_api = function() {
       };
     });
   });
+};
+
+CasperGeolocation.prototype.setLocation = function(position) {
+  this._position = position;
 };

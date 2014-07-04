@@ -27,25 +27,50 @@ casper.test.begin('Attaches the geolocation Object', 2, function(test) {
   casper.run();
 });
 
+
+
 // Tests that getCurrentPosition() works
 casper.test.begin('Test geolocation.getCurentPosition()', 1, function(test) {
+
+  /** calls getCurrentPosition with a callback
+    * that sets window.__foo__ to value */
+  function call_get_current_position(value) {
+    casper.evaluate(function(value) {
+      navigator.geolocation.getCurrentPosition(function() {
+        window.__foo__ = value;
+      })  
+    }, value);
+  }
+
+  /** returns window.__foo__ set by call_get_current_position()  */
+  function get_foo() { return window.__foo__ }
+
+  // START CASPER
   casper.start();
 
+  // Call getCurrentPosition and declare 
+  // window.__foo__ = 1 in the callback
   casper.then(function() {
-    this.evaluate(function() {
-      navigator.geolocation.getCurrentPosition(function() {
-        window.__casper_geolocation_test_get_current_position = 'test';
-      });
-    });
+    call_get_current_position(1);
   });
 
+  // test that __foo__ === 1
   casper.then(function() {
-    test.assertEvalEquals(function() {
-      return window.__casper_geolocation_test_get_current_position;
-    }, 'test', ".getCurrentPosition()'s callback called");
-
-    test.done();
+    test.assertEvalEquals(get_foo, 1, "callback called");
   });
+
+  
+  // // Change the location 
+  // casper.then(function() {
+  //   geo.setLocation({latitude : 12, longitude: 13});
+  //   call_get_current_position(2);
+  // })
+
+  // // Test that the 
+  // casper.then(function() {
+  //   test.assertEvalEquals(get_foo, 2, "Callback called after changing the location");
+  //   test.done();
+  // })
   
   casper.run();
 });
