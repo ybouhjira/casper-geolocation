@@ -15,9 +15,10 @@ function CasperGeolocation(casper, location) {
  * Add the API on page.initialized
  */
 CasperGeolocation.prototype._attach_api = function() {
-  casper.on('page.initialized', function() {  
+  casper.on('page.initialized', function () {  
     casper.evaluate(Remote.add_api, this._location);
   });
+  
 };
 
 /**
@@ -25,6 +26,7 @@ CasperGeolocation.prototype._attach_api = function() {
  */
 CasperGeolocation.prototype.setLocation = function(location) {
   this._location = location;
+  casper.evaluate(Remote.update_location, location);
 };
 
 module.exports = CasperGeolocation;
