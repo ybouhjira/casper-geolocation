@@ -1,4 +1,6 @@
 # casper-geolocation
+master:[master](https://travis-ci.org/ybouhjira/casper-geolocation.svg?branch=master)
+develop:[develop](https://travis-ci.org/ybouhjira/casper-geolocation.svg?branch=develop)
 A Casper.js module for testing apps that use the geolocation API.
 It allows control of the client's geolocation via a simple `setLocation()`
 function.
