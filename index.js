@@ -28,7 +28,9 @@ var Remote = {
 
   update_position : function(pos) {
     navigator.geolocation.__casperFakeLocation = pos;
-    navigator.geolocation.__casperWatchCallback(pos);
+    if(navigator.geolocation.__casperWatchCallback) {
+        navigator.geolocation.__casperWatchCallback(pos);
+    }
   }
 };
 
