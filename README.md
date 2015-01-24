@@ -8,13 +8,14 @@ function.
 ## how to use 
 ```javascript
 var require = patchRequire(require)
+  , initial_pos = { timestamp: Date.now(), coords: {latitude: 10, longitude: 10, accuracy: 10} }
   , casper = require('casper').create()
-  , geo = require('casperjs-geolocation')(casper);
+  , geo = require('casperjs-geolocation')(casper, initial_pos);
 
 casper.start('http://site.com');
 
 casper.then(function() {
-  geo.setPos({latitude : 20, longitude:20});
+  geo.setPos({latitude: 20, longitude: 20, accuracy: 10});
 });
 
 casper.run();
